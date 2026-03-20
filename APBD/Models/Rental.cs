@@ -34,9 +34,15 @@ public class Rental
        return WhenRefund <= UntilWhen;
    }
 
-    public override string ToString()
+   public int HowLong()
+   {
+       TimeSpan difference = UntilWhen - When;
+       return (int)(difference.Days);
+   }
+
+   public override string ToString()
     {
         string returnInfo = WhenRefund.HasValue ? $"WhenRefund: {WhenRefund:d} | Is refund on time: {IsRefundOnTime()} | Penalty: {Penalty ?? 0}" : "It hasn't been returned yet";
-        return $"{Id} | Who: {Who.FullName} | What: {What.Name}  | When: {When:d} | Until when: {UntilWhen:d} | {returnInfo}";
+        return $"{Id} | Who: {Who.FullName} | What: {What.Name}  | When: {When:d} | Until when: {UntilWhen:d} | How long: {HowLong()} days | {returnInfo}";
     }
 }

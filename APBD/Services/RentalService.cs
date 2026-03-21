@@ -34,10 +34,10 @@ public class RentalService
     public void RentEquipment(User user, Equipment equipment, DateTime from, DateTime until)
     {
         if (!equipment.IsAvailable)
-            throw new InvalidOperationException($"Sprzęt '{equipment.Name}' jest niedostępny.");
+            throw new InvalidOperationException($"Equipment '{equipment.Name}' is unavailable.");
 
         if (!CheckUserLimit(user))
-            throw new InvalidOperationException($"{user.FullName} przekroczył limit wypożyczeń.");
+            throw new InvalidOperationException($"{user.FullName} has exceeded the borrowing limit.");
 
         equipment.SetAvailability(false);
         _rentals.Add(new Rental(user, equipment, from, until));
@@ -48,10 +48,10 @@ public class RentalService
         Rental? rental = GetRentalById(rentalId);
 
         if (rental == null)
-            throw new InvalidOperationException("Nie znaleziono wypożyczenia o podanym ID.");
+            throw new InvalidOperationException("No rentals were found with the specified ID.");
 
         if (rental.WhenRefund.HasValue)
-            throw new InvalidOperationException("Ten sprzęt został już zwrócony.");
+            throw new InvalidOperationException("This equipment has already been returned.");
 
         decimal penalty = CalculatePenalty(rental, returnDate);
         rental.ProcessReturn(returnDate, penalty > 0 ? penalty : null);

@@ -26,6 +26,11 @@ public class EquipmentService
         return _equipments;
     }
     
+    public Equipment? GetEquipmentById(Guid id)
+    {
+        return _equipments.FirstOrDefault(e => e.Id == id);
+    }
+    
     public List<Equipment> GetAvailableEquipments()
     {
         return _equipments.Where(e => e.IsAvailable).ToList();

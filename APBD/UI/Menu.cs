@@ -252,7 +252,11 @@ public class Menu
                     try
                     {
                         _rentalService.ReturnEquipment(returnId.Value, returnDate.Value);
-                        Console.WriteLine("Sprzęt zwrócony!");
+                        
+                        if (rent.Penalty.HasValue && rent.Penalty > 0)
+                            Console.WriteLine($"Sprzęt zwrócony z opóźnieniem! Kara: {rent.Penalty}zł");
+                        else
+                            Console.WriteLine("Sprzęt zwrócony w terminie!");
                     }
                     catch (InvalidOperationException e)
                     {
